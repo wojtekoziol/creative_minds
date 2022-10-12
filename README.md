@@ -1,7 +1,6 @@
 # Creative Minds
 
-<!-- Build status badge -->
-
+[![creative_minds](https://github.com/wojtekoziol/creative_minds/actions/workflows/main.yaml/badge.svg?branch=main)](https://github.com/wojtekoziol/creative_minds/actions/workflows/main.yaml)
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
