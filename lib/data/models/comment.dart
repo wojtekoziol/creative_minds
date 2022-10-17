@@ -10,6 +10,7 @@ class Comment with _$Comment {
 
   const factory Comment({
     required String id,
+    required String postID,
     required String authorID,
     required String text,
   }) = _Comment;
@@ -17,6 +18,7 @@ class Comment with _$Comment {
   factory Comment.empty() {
     return const Comment(
       id: '',
+      postID: '',
       authorID: '',
       text: '',
     );

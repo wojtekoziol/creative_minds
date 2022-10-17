@@ -10,7 +10,7 @@ class Post with _$Post {
 
   const factory Post({
     required String id,
-    required String authorUID,
+    required String authorID,
     required String text,
     @Default([]) List<String> comments,
   }) = _Post;
@@ -18,7 +18,7 @@ class Post with _$Post {
   factory Post.empty() {
     return const Post(
       id: '',
-      authorUID: '',
+      authorID: '',
       text: '',
     );
   }
