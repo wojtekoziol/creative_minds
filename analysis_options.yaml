@@ -7,3 +7,5 @@ linter:
 analyzer:
   exclude:
     - lib/firebase_options.dart
+    - '**/*.freezed.dart'
+    - '**/*.g.dart'
