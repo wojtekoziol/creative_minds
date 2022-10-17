@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:creative_minds/data/models/user.dart';
 import 'package:creative_minds/data/repositories/firebase_auth_repo.dart';
-import 'package:creative_minds/data/repositories/firestore_repo.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authControllerProvider = StateNotifierProvider(AuthController.new);
@@ -13,16 +11,12 @@ class AuthController extends StateNotifier<User?> {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
         _ref.read(firebaseAuthRepoProvider).authStateChanges.listen((user) {
-      if (user == null) return;
-      _ref
-          .read(firestoreRepoProvider)
-          .getUser(user.uid)
-          .then((value) => state = value);
+      state = user;
     });
   }
 
   final Ref _ref;
-  StreamSubscription<auth.User?>? _authStateChangesSubscription;
+  StreamSubscription<User?>? _authStateChangesSubscription;
 
   Future<void> signInWithEmailAndPassword({
     required String email,

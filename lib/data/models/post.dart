@@ -6,19 +6,18 @@ part 'post.g.dart';
 
 @freezed
 class Post with _$Post {
-  const Post._();
-
   const factory Post({
     required String id,
-    required String authorID,
+    required String userID,
     required String text,
-    @Default([]) List<String> comments,
   }) = _Post;
+
+  const Post._();
 
   factory Post.empty() {
     return const Post(
       id: '',
-      authorID: '',
+      userID: '',
       text: '',
     );
   }

@@ -6,20 +6,20 @@ part 'comment.g.dart';
 
 @freezed
 class Comment with _$Comment {
-  const Comment._();
-
   const factory Comment({
     required String id,
-    required String postID,
-    required String authorID,
+    required String postId,
+    required String userId,
     required String text,
   }) = _Comment;
+
+  const Comment._();
 
   factory Comment.empty() {
     return const Comment(
       id: '',
-      postID: '',
-      authorID: '',
+      postId: '',
+      userId: '',
       text: '',
     );
   }

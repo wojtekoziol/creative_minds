@@ -1,7 +1,6 @@
 import 'package:creative_minds/data/interfaces/i_db_repo.dart';
 import 'package:creative_minds/data/models/comment.dart';
 import 'package:creative_minds/data/models/post.dart';
-import 'package:creative_minds/data/models/user.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,18 +31,6 @@ class FirestoreRepo extends IDBRepo {
   }
 
   @override
-  Future<User?> getUser(String id) async {
-    final docs = await _ref
-        .read(firebaseFirestoreProvider)
-        .collection('users')
-        .where('id', isEqualTo: id)
-        .get()
-        .then((value) => value.docs);
-    if (docs.isEmpty) return null;
-    return docs.map(User.fromDocument).first;
-  }
-
-  @override
   Future<List<Post>?> getUserPosts(String authorID) async {
     final snapshot = await _ref
         .read(firebaseFirestoreProvider)
@@ -65,20 +52,5 @@ class FirestoreRepo extends IDBRepo {
   Future<void> addPost(Post post) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
     await collection.add(post.toDocument());
-  }
-
-  @override
-  Future<void> addUser(User user) async {
-    final doesExist = await _ref
-        .read(firebaseFirestoreProvider)
-        .collection('users')
-        .where('id', isEqualTo: user.id)
-        .get()
-        .then((value) => value.docs.isNotEmpty);
-    if (doesExist) return;
-    await _ref
-        .read(firebaseFirestoreProvider)
-        .collection('users')
-        .add(user.toDocument());
   }
 }
