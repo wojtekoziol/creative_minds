@@ -1,6 +1,7 @@
 import 'package:creative_minds/data/interfaces/i_db_repo.dart';
 import 'package:creative_minds/data/models/comment.dart';
 import 'package:creative_minds/data/models/post.dart';
+import 'package:creative_minds/data/models/user.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,11 +13,61 @@ class FirestoreRepo extends IDBRepo {
   final Ref _ref;
 
   @override
+  Future<void> addUser(User user) async {
+    final collection = _ref.read(firebaseFirestoreProvider).collection('users');
+    await collection.doc(user.id).set(user.toJson());
+  }
+
+  @override
+  Future<User?> getUser(String? id) async {
+    if (id == null) return null;
+    final snapshot = await _ref
+        .read(firebaseFirestoreProvider)
+        .collection('users')
+        .where('id', isEqualTo: id)
+        .get();
+    if (snapshot.docs.isEmpty) return null;
+    return User.fromJson(snapshot.docs.first.data());
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    final collection = _ref.read(firebaseFirestoreProvider).collection('users');
+    await collection.doc(user.id).update(user.toJson());
+  }
+
+  @override
+  Future<void> addPost(Post post) async {
+    final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
+    await collection.add(post.toJson());
+  }
+
+  @override
   Future<List<Post>?> getAllPosts() async {
     final snapshot =
         await _ref.read(firebaseFirestoreProvider).collection('posts').get();
-    final posts = snapshot.docs.map(Post.fromDocument).toList();
+    final posts =
+        snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList();
     return posts;
+  }
+
+  @override
+  Future<List<Post>?> getUserPosts(String userID) async {
+    final snapshot = await _ref
+        .read(firebaseFirestoreProvider)
+        .collection('posts')
+        .where('userID', isEqualTo: userID)
+        .get();
+    final posts =
+        snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList();
+    return posts;
+  }
+
+  @override
+  Future<void> addComment(Comment comment) async {
+    final collection =
+        _ref.read(firebaseFirestoreProvider).collection('comments');
+    await collection.add(comment.toJson());
   }
 
   @override
@@ -26,31 +77,8 @@ class FirestoreRepo extends IDBRepo {
         .collection('comments')
         .where('postID', isEqualTo: postID)
         .get();
-    final comments = snapshot.docs.map(Comment.fromDocument).toList();
+    final comments =
+        snapshot.docs.map((doc) => Comment.fromJson(doc.data())).toList();
     return comments;
-  }
-
-  @override
-  Future<List<Post>?> getUserPosts(String authorID) async {
-    final snapshot = await _ref
-        .read(firebaseFirestoreProvider)
-        .collection('posts')
-        .where('authorID', isEqualTo: authorID)
-        .get();
-    final posts = snapshot.docs.map(Post.fromDocument).toList();
-    return posts;
-  }
-
-  @override
-  Future<void> addComment(Comment comment) async {
-    final collection =
-        _ref.read(firebaseFirestoreProvider).collection('comments');
-    await collection.add(comment.toDocument());
-  }
-
-  @override
-  Future<void> addPost(Post post) async {
-    final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
-    await collection.add(post.toDocument());
   }
 }
