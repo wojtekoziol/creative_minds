@@ -7,7 +7,6 @@ final postsStreamProvider = StreamProvider<List<Post>>((ref) {
       ref.read(firebaseFirestoreProvider).collection('posts').snapshots();
 
   return snapshots.map<List<Post>>(
-    (snapshot) =>
-        snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList(),
+    (snapshot) => snapshot.docs.map(Post.fromDocument).toList(),
   );
 });

@@ -15,7 +15,7 @@ class FirestoreRepo extends IDBRepo {
   @override
   Future<void> addUser(User user) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('users');
-    await collection.doc(user.id).set(user.toJson());
+    await collection.doc(user.id).set(user.toDocument());
   }
 
   @override
@@ -27,27 +27,26 @@ class FirestoreRepo extends IDBRepo {
         .where('id', isEqualTo: id)
         .get();
     if (snapshot.docs.isEmpty) return null;
-    return User.fromJson(snapshot.docs.first.data());
+    return User.fromDocument(snapshot.docs.first);
   }
 
   @override
   Future<void> updateUser(User user) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('users');
-    await collection.doc(user.id).update(user.toJson());
+    await collection.doc(user.id).update(user.toDocument());
   }
 
   @override
   Future<void> addPost(Post post) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
-    await collection.add(post.toJson());
+    await collection.add(post.toDocument());
   }
 
   @override
   Future<List<Post>?> getAllPosts() async {
     final snapshot =
         await _ref.read(firebaseFirestoreProvider).collection('posts').get();
-    final posts =
-        snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList();
+    final posts = snapshot.docs.map(Post.fromDocument).toList();
     return posts;
   }
 
@@ -58,8 +57,7 @@ class FirestoreRepo extends IDBRepo {
         .collection('posts')
         .where('userID', isEqualTo: userID)
         .get();
-    final posts =
-        snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList();
+    final posts = snapshot.docs.map(Post.fromDocument).toList();
     return posts;
   }
 
@@ -67,7 +65,7 @@ class FirestoreRepo extends IDBRepo {
   Future<void> addComment(Comment comment) async {
     final collection =
         _ref.read(firebaseFirestoreProvider).collection('comments');
-    await collection.add(comment.toJson());
+    await collection.add(comment.toDocument());
   }
 
   @override
@@ -77,8 +75,7 @@ class FirestoreRepo extends IDBRepo {
         .collection('comments')
         .where('postID', isEqualTo: postID)
         .get();
-    final comments =
-        snapshot.docs.map((doc) => Comment.fromJson(doc.data())).toList();
+    final comments = snapshot.docs.map(Comment.fromDocument).toList();
     return comments;
   }
 }

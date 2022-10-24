@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -12,4 +13,18 @@ class User with _$User {
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  const User._();
+
+  factory User.empty() {
+    return const User(id: '');
+  }
+
+  factory User.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    if (data == null) return User.empty();
+    return User.fromJson(data).copyWith(id: doc.id);
+  }
+
+  Map<String, dynamic> toDocument() => toJson()..remove(id);
 }

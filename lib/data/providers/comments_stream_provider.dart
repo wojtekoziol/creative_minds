@@ -11,7 +11,6 @@ final commentsStreamProvider =
       .snapshots();
 
   return snapshots.map<List<Comment>>(
-    (snapshot) =>
-        snapshot.docs.map((doc) => Comment.fromJson(doc.data())).toList(),
+    (snapshot) => snapshot.docs.map(Comment.fromDocument).toList(),
   );
 });
