@@ -1,3 +1,4 @@
+import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/config/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,5 +8,20 @@ final lightTheme = ThemeData.light().copyWith(
     primary: kTeal,
     secondary: kGraphite,
   ),
-  textTheme: GoogleFonts.montserratTextTheme(),
+  textTheme: GoogleFonts.montserratTextTheme(const TextTheme(
+    headline6: TextStyle(color: Colors.black),
+    subtitle1: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    bodyText1: TextStyle(color: Colors.black),
+  )),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: kTeal,
+      foregroundColor: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Insets.xs),
+      ),
+    ),
+  ),
+  dividerColor: kLightGrey,
 );

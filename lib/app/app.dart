@@ -1,4 +1,5 @@
 import 'package:creative_minds/config/theme/light_theme.dart';
+import 'package:creative_minds/view/navigation/navigation_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,7 @@ class App extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         theme: lightTheme,
+        home: const NavigationView(),
       ),
     );
   }
