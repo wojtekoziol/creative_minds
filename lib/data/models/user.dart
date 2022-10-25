@@ -8,6 +8,7 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     required String id,
+    required String email,
     String? name,
     String? photoURL,
   }) = _User;
@@ -17,7 +18,7 @@ class User with _$User {
   const User._();
 
   factory User.empty() {
-    return const User(id: '');
+    return const User(id: '', email: '');
   }
 
   factory User.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {

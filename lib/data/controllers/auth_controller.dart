@@ -32,7 +32,10 @@ class AuthController extends StateNotifier<User?> {
         password: password,
       );
       final firestoreRepo = _ref.read(firestoreRepoProvider);
-      await firestoreRepo.addUser(cm_user.User(id: state?.uid ?? ''));
+      await firestoreRepo.addUser(cm_user.User(
+        id: state?.uid ?? '',
+        email: state?.email ?? '',
+      ));
       return true;
     } on FirebaseException {
       return false;
