@@ -61,10 +61,8 @@ class PostCard extends ConsumerWidget {
                 );
               },
             ),
-
             const SizedBox(height: Insets.l),
             Text(post.text, style: theme.textTheme.bodyText1),
-            // TODO: Comments section
           ],
         ),
       ),

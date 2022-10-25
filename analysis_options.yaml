@@ -5,6 +5,7 @@ linter:
     public_member_api_docs: false
     require_trailing_commas: false
     flutter_style_todos: false
+    use_build_context_synchronously: false
 
 analyzer:
   exclude:

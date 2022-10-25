@@ -9,6 +9,7 @@ final lightTheme = ThemeData.light().copyWith(
     secondary: kGraphite,
   ),
   textTheme: GoogleFonts.montserratTextTheme(const TextTheme(
+    headline4: TextStyle(color: Colors.black),
     headline6: TextStyle(color: Colors.black),
     subtitle1: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     bodyText1: TextStyle(color: Colors.black),
@@ -24,4 +25,12 @@ final lightTheme = ThemeData.light().copyWith(
     ),
   ),
   dividerColor: kLightGrey,
+  snackBarTheme: SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.red,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(Insets.s),
+    ),
+  ),
 );

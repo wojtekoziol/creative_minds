@@ -15,8 +15,13 @@ class FirebaseAuthRepo extends IAuthRepo {
       _ref.read(firebaseAuthProvider).authStateChanges();
 
   @override
-  Future<void> signInAnonymously() async {
-    await _ref.read(firebaseAuthProvider).signInAnonymously();
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    await _ref
+        .read(firebaseAuthProvider)
+        .createUserWithEmailAndPassword(email: email, password: password);
   }
 
   @override

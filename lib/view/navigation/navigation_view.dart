@@ -1,12 +1,15 @@
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/controllers/auth_controller.dart';
+import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/posts/posts_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NavigationView extends StatelessWidget {
   const NavigationView({super.key});
+
+  static const route = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +51,8 @@ class _AppBar extends StatelessWidget {
             final user = ref.watch(authControllerProvider);
             if (user == null) {
               return ElevatedButton(
-                onPressed: () async {
-                  // TODO: Open login page
+                onPressed: () {
+                  Navigator.of(context).pushNamed(LoginView.route);
                 },
                 child: const Text('Join now'),
               );
@@ -57,16 +60,15 @@ class _AppBar extends StatelessWidget {
             return Row(
               children: [
                 ElevatedButton(
-                  onPressed: () async {
-                    // TODO: Open post creation page
-                  },
+                  onPressed: () {},
                   child: const Text('Post'),
                 ),
                 const SizedBox(width: Insets.s),
                 CircleAvatar(
                   radius: Insets.s,
-                  backgroundImage:
-                      NetworkImage(user.photoURL ?? kBlankProfilePictureURL),
+                  backgroundImage: NetworkImage(
+                    user.photoURL ?? kBlankProfilePictureURL,
+                  ),
                   backgroundColor: Colors.transparent,
                 )
               ],

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:creative_minds/data/models/user.dart' as cm_user;
-import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/repositories/firebase_auth_repo.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,21 +21,36 @@ class AuthController extends StateNotifier<User?> {
   final Ref _ref;
   StreamSubscription<User?>? _authStateChangesSubscription;
 
-  Future<void> signInWithEmailAndPassword({
+  Future<bool> signUpWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    await _ref
-        .read(firebaseAuthRepoProvider)
-        .signInWithEmailAndPassword(email: email, password: password);
+    try {
+      final authRepo = _ref.read(firebaseAuthRepoProvider);
+      await authRepo.signUpWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final firestoreRepo = _ref.read(firestoreRepoProvider);
+      await firestoreRepo.addUser(cm_user.User(id: state?.uid ?? ''));
+      return true;
+    } on FirebaseException {
+      return false;
+    }
   }
 
-  Future<void> signInAnonymously() async {
-    await _ref.read(firebaseAuthRepoProvider).signInAnonymously();
-    final user = _ref.read(firebaseAuthProvider).currentUser;
-    state = user;
-    if (user == null) return;
-    await _ref.read(firestoreRepoProvider).addUser(cm_user.User(id: user.uid));
+  Future<bool> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _ref
+          .read(firebaseAuthRepoProvider)
+          .signInWithEmailAndPassword(email: email, password: password);
+      return true;
+    } on FirebaseException {
+      return false;
+    }
   }
 
   Future<void> signOut() async {
