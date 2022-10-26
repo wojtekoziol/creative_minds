@@ -16,19 +16,16 @@ class NavigationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: const [
-            PostsView(),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Insets.m,
-                  vertical: Insets.s,
-                ),
-                child: _AppBar(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Insets.m,
+                vertical: Insets.s,
               ),
+              child: _AppBar(),
             ),
+            Expanded(child: PostsView()),
           ],
         ),
       ),
