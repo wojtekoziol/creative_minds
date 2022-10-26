@@ -8,8 +8,6 @@ class PostsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       body: Center(
         child: Consumer(
@@ -22,25 +20,16 @@ class PostsView extends StatelessWidget {
                 itemCount: posts.length,
                 itemBuilder: (_, index) {
                   if (posts.isEmpty) {
-                    return Text(
-                      'No posts yet.',
-                      style: textTheme.bodyText1,
-                    );
+                    return const Text('No posts yet.');
                   }
                   return PostCard(post: posts[index]);
                 },
               ),
               error: (_, __) => Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'There was an error.',
-                    style: textTheme.bodyText1,
-                  ),
-                  Text(
-                    'Please refresh the page.',
-                    style: textTheme.bodyText1,
-                  ),
+                children: const [
+                  Text('There was an error.'),
+                  Text('Please refresh the page.'),
                 ],
               ),
             );

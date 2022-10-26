@@ -39,7 +39,7 @@ class FirestoreRepo extends IDBRepo {
   @override
   Future<void> addPost(Post post) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
-    await collection.add(post.toDocument());
+    await collection.add(post.toJson());
   }
 
   @override

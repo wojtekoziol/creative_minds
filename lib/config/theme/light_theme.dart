@@ -10,9 +10,12 @@ final lightTheme = ThemeData.light().copyWith(
   ),
   textTheme: GoogleFonts.montserratTextTheme(const TextTheme(
     headline4: TextStyle(color: Colors.black),
-    headline6: TextStyle(color: Colors.black),
+    headline5: TextStyle(color: Colors.black),
+    headline6: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     subtitle1: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    bodyText1: TextStyle(color: Colors.black),
+    subtitle2: TextStyle(color: kTeal),
+    bodyText1: TextStyle(color: Colors.white),
+    bodyText2: TextStyle(color: Colors.black),
   )),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

@@ -1,6 +1,7 @@
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/controllers/auth_controller.dart';
 import 'package:creative_minds/view/login/widgets/login_text_field.dart';
+import 'package:creative_minds/view/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -151,14 +152,9 @@ class _LoginButtons extends ConsumerWidget {
             if (isSignedUp) {
               Navigator.of(context).pop();
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Account already exists or password is too weak',
-                  ),
-                  margin: EdgeInsets.fromLTRB(Insets.s, 0, Insets.s, Insets.s),
-                ),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar(
+                'Account already exists or password is too weak',
+              ));
             }
           },
           child: const Text('Sign up'),
@@ -174,12 +170,9 @@ class _LoginButtons extends ConsumerWidget {
             if (isSignedIn) {
               Navigator.of(context).pop();
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Incorrect mail or password'),
-                  margin: EdgeInsets.fromLTRB(Insets.s, 0, Insets.s, Insets.s),
-                ),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar(
+                'Incorrect mail or password',
+              ));
             }
           },
           child: const Text('Sign in'),

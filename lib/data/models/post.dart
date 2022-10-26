@@ -7,7 +7,6 @@ part 'post.g.dart';
 @freezed
 class Post with _$Post {
   const factory Post({
-    required String id,
     required String userID,
     required String text,
   }) = _Post;
@@ -18,7 +17,6 @@ class Post with _$Post {
 
   factory Post.empty() {
     return const Post(
-      id: '',
       userID: '',
       text: '',
     );
@@ -27,8 +25,6 @@ class Post with _$Post {
   factory Post.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data();
     if (data == null) return Post.empty();
-    return Post.fromJson(data).copyWith(id: doc.id);
+    return Post.fromJson(data);
   }
-
-  Map<String, dynamic> toDocument() => toJson()..remove(id);
 }

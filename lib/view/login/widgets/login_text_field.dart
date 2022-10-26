@@ -22,7 +22,7 @@ class LoginTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Insets.s),
+          borderRadius: BorderRadius.circular(Insets.xs),
         ),
         hintText: hintText,
       ),
