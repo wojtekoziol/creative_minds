@@ -27,6 +27,12 @@ class PostCard extends ConsumerWidget {
           FutureBuilder<User?>(
             future: ref.read(firestoreRepoProvider).getUser(post.userID),
             builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(
+                  'An error occurred',
+                  style: theme.textTheme.subtitle1,
+                );
+              }
               if (snapshot.hasData) {
                 return Row(
                   children: [
@@ -46,7 +52,7 @@ class PostCard extends ConsumerWidget {
                 );
               }
               return Text(
-                'An error occurred',
+                'Loading...',
                 style: theme.textTheme.subtitle1,
               );
             },
