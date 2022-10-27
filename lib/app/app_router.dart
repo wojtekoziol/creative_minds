@@ -1,45 +1,46 @@
+import 'package:creative_minds/data/models/post.dart';
+import 'package:creative_minds/view/comments/comments_view.dart';
+import 'package:creative_minds/view/error/error_view.dart';
 import 'package:creative_minds/view/login/login_view.dart';
-import 'package:creative_minds/view/navigation/navigation_view.dart';
 import 'package:creative_minds/view/new_post/new_post_view.dart';
+import 'package:creative_minds/view/posts/posts_view.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case NavigationView.route:
-        return MaterialPageRoute(builder: (_) => const NavigationView());
+      case PostsView.route:
+        return MaterialPageRoute(builder: (_) => const PostsView());
 
       case LoginView.route:
-        return PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const LoginView(),
-          transitionsBuilder: (_, animation, __, child) {
-            final tween = Tween(
-              begin: const Offset(0, 1),
-              end: Offset.zero,
-            );
-            return SlideTransition(
-              position: animation.drive(tween),
-              child: child,
-            );
-          },
-        );
+        return _slideUpTransition(const LoginView());
 
       case NewPostView.route:
-        return PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const NewPostView(),
-          transitionsBuilder: (_, animation, __, child) {
-            final tween = Tween(
-              begin: const Offset(0, 1),
-              end: Offset.zero,
-            );
-            return SlideTransition(
-              position: animation.drive(tween),
-              child: child,
-            );
-          },
-        );
+        return _slideUpTransition(const NewPostView());
+
+      case CommentsView.route:
+        final args = settings.arguments;
+        return _slideUpTransition(args == null
+            ? const ErrorView()
+            : CommentsView(post: args as Post));
     }
 
-    return MaterialPageRoute(builder: (_) => const NavigationView());
+    return _slideUpTransition(const ErrorView());
   }
+}
+
+PageRouteBuilder<dynamic> _slideUpTransition(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (_, __, ___) => page,
+    transitionsBuilder: (_, animation, __, child) {
+      final tween = Tween(
+        begin: const Offset(0, 1),
+        end: Offset.zero,
+      );
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

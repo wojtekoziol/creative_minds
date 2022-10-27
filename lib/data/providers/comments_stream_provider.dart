@@ -3,11 +3,11 @@ import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final commentsStreamProvider =
-    StreamProvider.family<List<Comment>, String>((ref, postId) {
+    StreamProvider.family<List<Comment>, String>((ref, postID) {
   final snapshots = ref
       .read(firebaseFirestoreProvider)
       .collection('comments')
-      .where('postId', isEqualTo: postId)
+      .where('postID', isEqualTo: postID)
       .snapshots();
 
   return snapshots.map<List<Comment>>(

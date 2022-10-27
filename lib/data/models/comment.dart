@@ -8,8 +8,8 @@ part 'comment.g.dart';
 class Comment with _$Comment {
   const factory Comment({
     required String id,
-    required String postId,
-    required String userId,
+    required String postID,
+    required String userID,
     required String text,
   }) = _Comment;
 
@@ -19,7 +19,7 @@ class Comment with _$Comment {
   const Comment._();
 
   factory Comment.empty() {
-    return const Comment(id: '', postId: '', userId: '', text: '');
+    return const Comment(id: '', postID: '', userID: '', text: '');
   }
 
   factory Comment.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {

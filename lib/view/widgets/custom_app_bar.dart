@@ -3,38 +3,11 @@ import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/controllers/auth_controller.dart';
 import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/new_post/new_post_view.dart';
-import 'package:creative_minds/view/posts/posts_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NavigationView extends StatelessWidget {
-  const NavigationView({super.key});
-
-  static const route = '/';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: const [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Insets.m,
-                vertical: Insets.s,
-              ),
-              child: _AppBar(),
-            ),
-            Expanded(child: PostsView()),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _AppBar extends StatelessWidget {
-  const _AppBar();
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

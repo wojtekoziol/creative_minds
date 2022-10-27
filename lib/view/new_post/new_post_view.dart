@@ -58,6 +58,7 @@ class NewPostView extends HookConsumerWidget {
                                   final firestoreRepo =
                                       ref.read(firestoreRepoProvider);
                                   await firestoreRepo.addPost(Post(
+                                    id: '',
                                     userID: userID,
                                     text: textController.text,
                                   ));
