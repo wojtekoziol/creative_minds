@@ -11,7 +11,7 @@ Social media app bringing together all the creative minds and their ideas.
 
 <!-- App screenshots -->
 
-_\*Creative Minds works on iOS, Android, Web, macOs and Windows._
+_\*Creative Minds works on iOS, Android and Web._
 
 ---
 
