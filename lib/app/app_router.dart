@@ -36,7 +36,7 @@ PageRouteBuilder<dynamic> _slideUpTransition(Widget page) {
       final tween = Tween(
         begin: const Offset(0, 1),
         end: Offset.zero,
-      );
+      ).chain(CurveTween(curve: Curves.fastOutSlowIn));
       return SlideTransition(
         position: animation.drive(tween),
         child: child,

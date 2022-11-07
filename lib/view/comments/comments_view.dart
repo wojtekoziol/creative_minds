@@ -20,12 +20,14 @@ class CommentsView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scaffoldColor = Theme.of(context).scaffoldBackgroundColor;
+
     final textController = useTextEditingController();
     final textFieldFocusNode = useFocusNode();
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Insets.m),
+        padding: const EdgeInsets.fromLTRB(Insets.m, Insets.s, Insets.m, 0),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +67,16 @@ class CommentsView extends HookConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: Insets.xl),
+              Container(
+                height: Insets.xl,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [scaffoldColor, scaffoldColor.withOpacity(0.1)],
+                  ),
+                ),
+              ),
               Expanded(
                 child: Center(
                   child: Consumer(
@@ -76,6 +87,7 @@ class CommentsView extends HookConsumerWidget {
                         loading: () => const CircularProgressIndicator(),
                         data: (comments) => ListView.separated(
                           itemCount: comments.length,
+                          padding: const EdgeInsets.only(bottom: Insets.s),
                           itemBuilder: (_, index) =>
                               CommentCard(comments[index]),
                           separatorBuilder: (context, index) =>

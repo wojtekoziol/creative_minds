@@ -16,15 +16,11 @@ class PostsView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Insets.m),
+          padding: const EdgeInsets.fromLTRB(Insets.m, Insets.s, Insets.m, 0),
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: Insets.s,
-                ),
-                child: CustomAppBar(),
-              ),
+              const CustomAppBar(),
+              const SizedBox(height: Insets.xl),
               Expanded(
                 child: Center(
                   child: Consumer(
@@ -36,14 +32,9 @@ class PostsView extends StatelessWidget {
                         data: (posts) => ListView.separated(
                           itemCount: posts.length,
                           itemBuilder: (_, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  CommentsView.route,
-                                  arguments: posts[index],
-                                );
-                              },
-                              child: PostCard(post: posts[index]),
+                            return PostCard(
+                              post: posts[index],
+                              withCommentsButton: true,
                             );
                           },
                           separatorBuilder: (context, index) =>
