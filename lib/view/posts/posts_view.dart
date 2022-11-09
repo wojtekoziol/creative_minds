@@ -1,6 +1,5 @@
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/posts_stream_provider.dart';
-import 'package:creative_minds/view/comments/comments_view.dart';
 import 'package:creative_minds/view/posts/widgets/post_card.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';

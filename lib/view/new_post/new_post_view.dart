@@ -64,7 +64,12 @@ class NewPostView extends HookConsumerWidget {
                                   ));
                                   Navigator.of(context).pop();
                                 },
-                                child: const Text('Submit'),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: Insets.xs,
+                                  ),
+                                  child: Text('Submit'),
+                                ),
                               ),
                             ),
                           ),

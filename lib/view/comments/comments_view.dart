@@ -63,7 +63,10 @@ class CommentsView extends HookConsumerWidget {
                       textController.clear();
                       textFieldFocusNode.unfocus();
                     },
-                    child: const Text('Submit'),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: Insets.s),
+                      child: Text('Submit'),
+                    ),
                   ),
                 ],
               ),
