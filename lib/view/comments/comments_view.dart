@@ -1,8 +1,8 @@
 import 'package:creative_minds/config/insets.dart';
-import 'package:creative_minds/data/controllers/auth_controller.dart';
 import 'package:creative_minds/data/models/comment.dart';
 import 'package:creative_minds/data/models/post.dart';
-import 'package:creative_minds/data/providers/comments_stream_provider.dart';
+import 'package:creative_minds/data/providers/comments_providers.dart';
+import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/comments/widgets/comment_card.dart';
 import 'package:creative_minds/view/comments/widgets/comment_text_field.dart';
@@ -49,7 +49,10 @@ class CommentsView extends HookConsumerWidget {
                   ElevatedButton(
                     onPressed: () async {
                       if (textController.text.isEmpty) return;
-                      final userID = ref.read(authControllerProvider)?.uid;
+                      final userID = ref
+                          .watch(currentFirebaseUserStreamProvider)
+                          .value
+                          ?.uid;
                       if (userID == null) return;
                       final comment = Comment(
                         id: '',

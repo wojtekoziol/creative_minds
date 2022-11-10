@@ -1,6 +1,6 @@
 import 'package:creative_minds/config/insets.dart';
-import 'package:creative_minds/data/controllers/auth_controller.dart';
 import 'package:creative_minds/data/models/post.dart';
+import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/new_post/widgets/post_text_field.dart';
 import 'package:creative_minds/view/widgets/custom_card.dart';
@@ -54,8 +54,10 @@ class NewPostView extends HookConsumerWidget {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  final userID =
-                                      ref.read(authControllerProvider)?.uid;
+                                  final userID = ref
+                                      .watch(currentFirebaseUserStreamProvider)
+                                      .value
+                                      ?.uid;
                                   if (userID == null) {
                                     Navigator.of(context).pop();
                                     ScaffoldMessenger.of(context).showSnackBar(

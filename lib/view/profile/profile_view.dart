@@ -1,9 +1,8 @@
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
-import 'package:creative_minds/data/controllers/auth_controller.dart';
-import 'package:creative_minds/data/models/user.dart';
-import 'package:creative_minds/data/providers/posts_stream_provider.dart';
-import 'package:creative_minds/data/repositories/firestore_repo.dart';
+import 'package:creative_minds/data/providers/firebase_providers.dart';
+import 'package:creative_minds/data/providers/posts_providers.dart';
+import 'package:creative_minds/data/providers/user_providers.dart';
 import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/posts/widgets/post_card.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
@@ -36,7 +35,7 @@ class ProfileView extends ConsumerWidget {
                       Navigator.of(context)
                         ..popUntil((route) => route.isFirst)
                         ..pushNamed(LoginView.route);
-                      ref.read(authControllerProvider.notifier).signOut();
+                      ref.read(firebaseAuthProvider).signOut();
                     },
                     child: const Text('Sign out'),
                   ),
@@ -66,32 +65,23 @@ class _YourProfileSection extends ConsumerWidget {
         children: [
           Text('Your profile', style: textTheme.subtitle1),
           const SizedBox(height: Insets.s),
-          FutureBuilder<User?>(
-            future: ref
-                .read(firestoreRepoProvider)
-                .getUser(ref.watch(authControllerProvider)?.uid),
-            builder: (_, snapshot) {
-              if (snapshot.hasError) {
-                return const Text('Could not load your profile');
-              }
-              if (snapshot.hasData) {
-                return Row(
+          ref.watch(currentUserStreamProvider).when(
+                data: (user) => Row(
                   children: [
                     CircleAvatar(
                       radius: Insets.m,
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(
-                        snapshot.data?.photoURL ?? kBlankProfilePictureURL,
+                        user?.photoURL ?? kBlankProfilePictureURL,
                       ),
                     ),
                     const SizedBox(width: Insets.s),
-                    Text(snapshot.data?.name ?? 'user'),
+                    Text(user?.name ?? 'user'),
                   ],
-                );
-              }
-              return const Text('Loading...');
-            },
-          ),
+                ),
+                error: (_, __) => const Text('Could not load your profile'),
+                loading: () => const Text('Loading...'),
+              ),
         ],
       ),
     );

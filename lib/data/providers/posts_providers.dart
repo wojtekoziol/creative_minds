@@ -1,4 +1,3 @@
-import 'package:creative_minds/data/controllers/auth_controller.dart';
 import 'package:creative_minds/data/models/post.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +12,7 @@ final postsStreamProvider = StreamProvider<List<Post>>((ref) {
 });
 
 final userPostsStreamProvider = StreamProvider<List<Post>>((ref) {
-  final user = ref.watch(authControllerProvider);
+  final user = ref.watch(currentFirebaseUserStreamProvider).value;
 
   final snapshots = ref
       .read(firebaseFirestoreProvider)

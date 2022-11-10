@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/insets.dart';
-import 'package:creative_minds/data/controllers/auth_controller.dart';
+import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/view/login/widgets/login_text_field.dart';
 import 'package:creative_minds/view/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -144,14 +145,15 @@ class _LoginButtons extends ConsumerWidget {
         ElevatedButton(
           onPressed: () async {
             if (!formKey.currentState!.validate()) return;
-            final authController = ref.read(authControllerProvider.notifier);
-            final isSignedUp = await authController.signUpWithEmailAndPassword(
-              email: mailController.text,
-              password: passwordController.text,
-            );
-            if (isSignedUp) {
+            try {
+              await ref
+                  .read(firebaseAuthProvider)
+                  .createUserWithEmailAndPassword(
+                    email: mailController.text,
+                    password: passwordController.text,
+                  );
               Navigator.of(context).pop();
-            } else {
+            } on FirebaseException {
               ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar(
                 'Account already exists or password is too weak',
               ));
@@ -162,14 +164,13 @@ class _LoginButtons extends ConsumerWidget {
         ElevatedButton(
           onPressed: () async {
             if (!formKey.currentState!.validate()) return;
-            final authController = ref.read(authControllerProvider.notifier);
-            final isSignedIn = await authController.signInWithEmailAndPassword(
-              email: mailController.text,
-              password: passwordController.text,
-            );
-            if (isSignedIn) {
+            try {
+              await ref.read(firebaseAuthProvider).signInWithEmailAndPassword(
+                    email: mailController.text,
+                    password: passwordController.text,
+                  );
               Navigator.of(context).pop();
-            } else {
+            } on FirebaseException {
               ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar(
                 'Incorrect mail or password',
               ));

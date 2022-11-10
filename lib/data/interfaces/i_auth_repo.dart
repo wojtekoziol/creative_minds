@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 abstract class IAuthRepo {
-  Stream<User?> get authStateChanges;
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,

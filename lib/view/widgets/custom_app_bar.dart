@@ -1,6 +1,6 @@
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
-import 'package:creative_minds/data/controllers/auth_controller.dart';
+import 'package:creative_minds/data/providers/user_providers.dart';
 import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/new_post/new_post_view.dart';
 import 'package:creative_minds/view/profile/profile_view.dart';
@@ -25,7 +25,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         Consumer(
           builder: (_, ref, __) {
-            final user = ref.watch(authControllerProvider);
+            final user = ref.watch(currentUserStreamProvider).value;
             if (user == null) {
               return ElevatedButton(
                 onPressed: () {

@@ -18,19 +18,6 @@ class FirestoreRepo extends IDBRepo {
     await collection.doc(user.id).set(user.toDocument());
   }
 
-  // TODO: Remove
-  @override
-  Future<User?> getUser(String? id) async {
-    if (id == null) return null;
-    final snapshot = await _ref
-        .read(firebaseFirestoreProvider)
-        .collection('users')
-        .where('id', isEqualTo: id)
-        .get();
-    if (snapshot.docs.isEmpty) return null;
-    return User.fromDocument(snapshot.docs.first);
-  }
-
   @override
   Future<void> updateUser(User user) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('users');
@@ -47,14 +34,6 @@ class FirestoreRepo extends IDBRepo {
   Future<void> updatePost(Post post) async {
     final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
     await collection.doc(post.id).update(post.toDocument());
-  }
-
-  @override
-  Future<List<Post>?> getAllPosts() async {
-    final snapshot =
-        await _ref.read(firebaseFirestoreProvider).collection('posts').get();
-    final posts = snapshot.docs.map(Post.fromDocument).toList();
-    return posts;
   }
 
   @override
