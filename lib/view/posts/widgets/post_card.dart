@@ -4,19 +4,26 @@ import 'package:creative_minds/data/models/post.dart';
 import 'package:creative_minds/data/models/user.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/comments/comments_view.dart';
+import 'package:creative_minds/view/new_post/new_post_view.dart';
 import 'package:creative_minds/view/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+enum PostCardType {
+  empty,
+  comments,
+  edit,
+}
 
 class PostCard extends ConsumerWidget {
   const PostCard({
     super.key,
     required this.post,
-    this.withCommentsButton = false,
+    this.type = PostCardType.empty,
   });
 
   final Post post;
-  final bool withCommentsButton;
+  final PostCardType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +36,7 @@ class PostCard extends ConsumerWidget {
         children: [
           FutureBuilder<User?>(
             future: ref.read(firestoreRepoProvider).getUser(post.userID),
-            builder: (context, snapshot) {
+            builder: (_, snapshot) {
               if (snapshot.hasError) {
                 return Text(
                   'An error occurred',
@@ -62,7 +69,7 @@ class PostCard extends ConsumerWidget {
           ),
           const SizedBox(height: Insets.l),
           Text(post.text),
-          if (withCommentsButton) ...[
+          if (type == PostCardType.comments) ...[
             const SizedBox(height: Insets.l),
             TextButton.icon(
               onPressed: () {
@@ -76,6 +83,22 @@ class PostCard extends ConsumerWidget {
                 color: theme.colorScheme.primary,
               ),
               label: const Text('Comments'),
+            ),
+          ],
+          if (type == PostCardType.edit) ...[
+            const SizedBox(height: Insets.l),
+            TextButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  NewPostView.route,
+                  arguments: post,
+                );
+              },
+              icon: Icon(
+                Icons.edit_outlined,
+                color: theme.colorScheme.primary,
+              ),
+              label: const Text('Edit'),
             ),
           ]
         ],

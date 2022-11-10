@@ -33,7 +33,7 @@ class PostsView extends StatelessWidget {
                           itemBuilder: (_, index) {
                             return PostCard(
                               post: posts[index],
-                              withCommentsButton: true,
+                              type: PostCardType.comments,
                             );
                           },
                           separatorBuilder: (context, index) =>

@@ -10,15 +10,23 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NewPostView extends HookConsumerWidget {
-  const NewPostView({super.key});
+  const NewPostView({super.key, this.post});
 
   static const route = '/new_post';
+
+  final Post? post;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
     final textController = useTextEditingController();
+
+    useEffect(() {
+      if (post == null) return;
+      textController.text = post!.text;
+      return;
+    }, []);
 
     return Scaffold(
       body: Padding(
@@ -57,11 +65,17 @@ class NewPostView extends HookConsumerWidget {
                                   }
                                   final firestoreRepo =
                                       ref.read(firestoreRepoProvider);
-                                  await firestoreRepo.addPost(Post(
-                                    id: '',
-                                    userID: userID,
-                                    text: textController.text,
-                                  ));
+                                  if (post == null) {
+                                    await firestoreRepo.addPost(Post(
+                                      id: '',
+                                      userID: userID,
+                                      text: textController.text,
+                                    ));
+                                  } else {
+                                    await firestoreRepo.updatePost(
+                                      post!.copyWith(text: textController.text),
+                                    );
+                                  }
                                   Navigator.of(context).pop();
                                 },
                                 child: const Padding(

@@ -20,8 +20,6 @@ class CommentsView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scaffoldColor = Theme.of(context).scaffoldBackgroundColor;
-
     final textController = useTextEditingController();
     final textFieldFocusNode = useFocusNode();
 
@@ -70,16 +68,7 @@ class CommentsView extends HookConsumerWidget {
                   ),
                 ],
               ),
-              Container(
-                height: Insets.xl,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [scaffoldColor, scaffoldColor.withOpacity(0.1)],
-                  ),
-                ),
-              ),
+              const SizedBox(height: Insets.xl),
               Expanded(
                 child: Center(
                   child: Consumer(

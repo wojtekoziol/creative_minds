@@ -5,15 +5,15 @@ import 'package:creative_minds/data/models/user.dart';
 abstract class IDBRepo {
   // User
   Future<void> addUser(User user);
+  // TODO: Remove
   Future<User?> getUser(String id);
   Future<void> updateUser(User user);
 
   // Posts
   Future<void> addPost(Post post);
+  Future<void> updatePost(Post post);
   Future<List<Post>?> getAllPosts();
-  Future<List<Post>?> getUserPosts(String userID);
 
   // Comments
-  Future<List<Comment>?> getComments(String postID);
   Future<void> addComment(Comment comment);
 }
