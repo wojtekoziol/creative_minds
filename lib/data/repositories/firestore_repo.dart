@@ -37,6 +37,12 @@ class FirestoreRepo extends IDBRepo {
   }
 
   @override
+  Future<void> deletePost(Post post) async {
+    final collection = _ref.read(firebaseFirestoreProvider).collection('posts');
+    await collection.doc(post.id).delete();
+  }
+
+  @override
   Future<void> addComment(Comment comment) async {
     final collection =
         _ref.read(firebaseFirestoreProvider).collection('comments');

@@ -10,6 +10,7 @@ abstract class IDBRepo {
   // Posts
   Future<void> addPost(Post post);
   Future<void> updatePost(Post post);
+  Future<void> deletePost(Post post);
 
   // Comments
   Future<void> addComment(Comment comment);

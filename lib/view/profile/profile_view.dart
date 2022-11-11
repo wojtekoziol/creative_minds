@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/providers/posts_providers.dart';
 import 'package:creative_minds/data/providers/user_providers.dart';
 import 'package:creative_minds/view/login/login_view.dart';
-import 'package:creative_minds/view/posts/widgets/post_card.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
+import 'package:creative_minds/view/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -27,20 +28,10 @@ class ProfileView extends ConsumerWidget {
             ),
             Expanded(
               child: ListView(
-                children: [
-                  const _YourProfileSection(),
-                  const SizedBox(height: Insets.m),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                        ..popUntil((route) => route.isFirst)
-                        ..pushNamed(LoginView.route);
-                      ref.read(firebaseAuthProvider).signOut();
-                    },
-                    child: const Text('Sign out'),
-                  ),
-                  const SizedBox(height: Insets.xl),
-                  const _PostsSection(),
+                children: const [
+                  _YourProfileSection(),
+                  SizedBox(height: Insets.xl),
+                  _PostsSection(),
                 ],
               ),
             ),
@@ -82,6 +73,16 @@ class _YourProfileSection extends ConsumerWidget {
                 error: (_, __) => const Text('Could not load your profile'),
                 loading: () => const Text('Loading...'),
               ),
+          const SizedBox(height: Insets.m),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context)
+                ..popUntil((route) => route.isFirst)
+                ..pushNamed(LoginView.route);
+              ref.read(firebaseAuthProvider).signOut();
+            },
+            child: const Text('Sign out'),
+          ),
         ],
       ),
     );

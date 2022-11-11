@@ -2,6 +2,7 @@ import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/models/post.dart';
 import 'package:creative_minds/data/providers/user_providers.dart';
+import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/comments/comments_view.dart';
 import 'package:creative_minds/view/new_post/new_post_view.dart';
 import 'package:creative_minds/view/widgets/custom_card.dart';
@@ -79,20 +80,40 @@ class PostCard extends ConsumerWidget {
           ],
           if (type == PostCardType.edit) ...[
             const SizedBox(height: Insets.l),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  NewPostView.route,
-                  arguments: post,
-                );
-              },
-              icon: Icon(
-                Icons.edit_outlined,
-                color: theme.colorScheme.primary,
-              ),
-              label: const Text('Edit'),
+            Row(
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      NewPostView.route,
+                      arguments: post,
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    color: theme.colorScheme.primary,
+                  ),
+                  label: const Text('Edit'),
+                ),
+                const SizedBox(width: Insets.s),
+                TextButton.icon(
+                  onPressed: () {
+                    ref.read(firestoreRepoProvider).deletePost(post);
+                  },
+                  icon: Icon(
+                    Icons.delete_outline,
+                    color: theme.colorScheme.error,
+                  ),
+                  label: Text(
+                    'Delete',
+                    style: theme.textTheme.bodyText2!.copyWith(
+                      color: theme.colorScheme.error,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ]
+          ],
         ],
       ),
     );

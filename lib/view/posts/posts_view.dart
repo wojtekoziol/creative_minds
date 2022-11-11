@@ -1,7 +1,7 @@
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/posts_providers.dart';
-import 'package:creative_minds/view/posts/widgets/post_card.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
+import 'package:creative_minds/view/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

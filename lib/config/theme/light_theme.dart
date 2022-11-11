@@ -7,6 +7,7 @@ final lightTheme = ThemeData.light().copyWith(
   colorScheme: const ColorScheme.light(
     primary: kTeal,
     secondary: kGraphite,
+    error: kRed,
   ),
   textTheme: GoogleFonts.montserratTextTheme(const TextTheme(
     headline4: TextStyle(color: Colors.black),
