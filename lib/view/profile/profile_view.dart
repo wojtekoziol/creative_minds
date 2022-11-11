@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';

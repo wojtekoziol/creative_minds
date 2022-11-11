@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final currentUserStreamProvider = StreamProvider<User?>((ref) {
   final firebaseUser = ref.watch(currentFirebaseUserStreamProvider).value;
 
+  if (firebaseUser == null) return Stream.value(null);
+
   final snapshots = ref
       .read(firebaseFirestoreProvider)
       .collection('users')
-      .where('id', isEqualTo: firebaseUser?.uid)
+      .where('id', isEqualTo: firebaseUser.uid)
       .snapshots();
 
   return snapshots.map<User?>(
