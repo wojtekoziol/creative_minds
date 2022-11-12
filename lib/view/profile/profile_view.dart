@@ -3,46 +3,111 @@ import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/providers/posts_providers.dart';
 import 'package:creative_minds/data/providers/user_providers.dart';
+import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
+import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:creative_minds/view/widgets/post_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProfileView extends ConsumerWidget {
+class ProfileView extends HookConsumerWidget {
   const ProfileView({super.key});
 
   static const route = '/profile';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final nameController = useTextEditingController();
+    final focusNode = useFocusNode();
+    final animController = useAnimationController(
+      duration: const Duration(milliseconds: 200),
+    );
+
+    useEffect(() {
+      final name = ref.read(currentUserStreamProvider).value?.name;
+      if (name == null) return;
+      nameController.text = name;
+      return;
+    });
+
+    useEffect(() {
+      nameController.addListener(() {
+        final name = ref.read(currentUserStreamProvider).value?.name;
+        nameController.text == name
+            ? animController.reverse()
+            : animController.forward();
+      });
+      return;
+    }, []);
+
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(Insets.m, Insets.s, Insets.m, 0),
-        child: Column(
-          children: [
-            const SafeArea(
-              bottom: false,
-              child: CustomAppBar(),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(Insets.m, Insets.s, Insets.m, 0),
+            child: Column(
+              children: [
+                const SafeArea(
+                  bottom: false,
+                  child: CustomAppBar(),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _YourProfileSection(
+                        controller: nameController,
+                        focusNode: focusNode,
+                      ),
+                      const SizedBox(height: Insets.xl),
+                      const _PostsSection(),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: ListView(
-                children: const [
-                  _YourProfileSection(),
-                  SizedBox(height: Insets.xl),
-                  _PostsSection(),
-                ],
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(bottom: Insets.s, right: Insets.m),
+                child: ScaleTransition(
+                  scale: Tween<double>(begin: 0, end: 1)
+                      .chain(CurveTween(curve: Curves.fastOutSlowIn))
+                      .animate(animController),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final user = ref.read(currentUserStreamProvider).value;
+                      if (user == null) return;
+                      ref
+                          .read(firestoreRepoProvider)
+                          .updateUser(user.copyWith(name: nameController.text));
+                      animController.reverse();
+                      focusNode.unfocus();
+                    },
+                    child: const Text('Change username'),
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _YourProfileSection extends ConsumerWidget {
-  const _YourProfileSection();
+  const _YourProfileSection({
+    required this.controller,
+    required this.focusNode,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,7 +132,14 @@ class _YourProfileSection extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: Insets.s),
-                    Text(user?.name ?? 'user'),
+                    Expanded(
+                      child: CustomTextFormField(
+                        type: TextInputType.name,
+                        controller: controller,
+                        focusNode: focusNode,
+                        hintText: user?.name,
+                      ),
+                    ),
                   ],
                 ),
                 error: (_, __) => const Text('Could not load your profile'),

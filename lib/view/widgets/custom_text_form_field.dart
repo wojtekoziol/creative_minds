@@ -9,7 +9,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.obscureText = false,
     this.validator,
-    this.multiline = false,
+    required this.type,
     this.counter = false,
   });
 
@@ -18,7 +18,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final bool obscureText;
   final String? Function(String? text)? validator;
-  final bool multiline;
+  final TextInputType type;
   final bool counter;
 
   @override
@@ -41,10 +41,10 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       autocorrect: false,
       style: theme.textTheme.bodyText1,
-      keyboardType: multiline ? TextInputType.multiline : null,
-      maxLines: multiline ? 10 : null,
-      minLines: multiline ? 10 : null,
-      maxLength: multiline ? 300 : null,
+      keyboardType: type,
+      maxLines: type == TextInputType.multiline ? 10 : 1,
+      minLines: type == TextInputType.multiline ? 10 : 1,
+      maxLength: type == TextInputType.multiline ? 300 : null,
       buildCounter: counter
           ? (context, {required currentLength, required isFocused, maxLength}) {
               return Align(

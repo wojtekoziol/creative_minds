@@ -41,6 +41,7 @@ class CommentsView extends HookConsumerWidget {
                 children: [
                   Expanded(
                     child: CustomTextFormField(
+                      type: TextInputType.text,
                       controller: textController,
                       focusNode: textFieldFocusNode,
                       hintText: 'Leave a comment',

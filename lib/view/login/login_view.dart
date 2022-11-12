@@ -99,6 +99,7 @@ class _LoginForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomTextFormField(
+            type: TextInputType.emailAddress,
             controller: mailController,
             hintText: 'mail',
             validator: (text) {
@@ -110,6 +111,7 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: Insets.m),
           CustomTextFormField(
+            type: TextInputType.visiblePassword,
             controller: passwordController,
             hintText: 'password',
             obscureText: true,

@@ -48,8 +48,8 @@ class NewPostView extends HookConsumerWidget {
                           const Text('Description'),
                           const SizedBox(height: Insets.xs),
                           CustomTextFormField(
+                            type: TextInputType.multiline,
                             controller: textController,
-                            multiline: true,
                             counter: true,
                           ),
                           const SizedBox(height: Insets.m),
