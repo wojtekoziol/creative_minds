@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
-import 'package:creative_minds/view/login/widgets/login_text_field.dart';
 import 'package:creative_minds/view/widgets/custom_snackbar.dart';
+import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -98,7 +98,7 @@ class _LoginForm extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          LoginTextField(
+          CustomTextFormField(
             controller: mailController,
             hintText: 'mail',
             validator: (text) {
@@ -109,7 +109,7 @@ class _LoginForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: Insets.m),
-          LoginTextField(
+          CustomTextFormField(
             controller: passwordController,
             hintText: 'password',
             obscureText: true,

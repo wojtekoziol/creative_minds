@@ -2,9 +2,9 @@ import 'package:creative_minds/config/insets.dart';
 import 'package:creative_minds/data/models/post.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
-import 'package:creative_minds/view/new_post/widgets/post_text_field.dart';
 import 'package:creative_minds/view/widgets/custom_card.dart';
 import 'package:creative_minds/view/widgets/custom_snackbar.dart';
+import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -47,7 +47,11 @@ class NewPostView extends HookConsumerWidget {
                           const SizedBox(height: Insets.s),
                           const Text('Description'),
                           const SizedBox(height: Insets.xs),
-                          PostTextField(controller: textController),
+                          CustomTextFormField(
+                            controller: textController,
+                            multiline: true,
+                            counter: true,
+                          ),
                           const SizedBox(height: Insets.m),
                           Align(
                             child: SizedBox(

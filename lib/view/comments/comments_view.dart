@@ -5,7 +5,7 @@ import 'package:creative_minds/data/providers/comments_providers.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/comments/widgets/comment_card.dart';
-import 'package:creative_minds/view/comments/widgets/comment_text_field.dart';
+import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:creative_minds/view/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -40,9 +40,10 @@ class CommentsView extends HookConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CommentTextField(
+                    child: CustomTextFormField(
                       controller: textController,
                       focusNode: textFieldFocusNode,
+                      hintText: 'Leave a comment',
                     ),
                   ),
                   const SizedBox(width: Insets.m),

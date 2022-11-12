@@ -13,10 +13,10 @@ final lightTheme = ThemeData.light().copyWith(
     headline4: TextStyle(color: Colors.black),
     headline5: TextStyle(color: Colors.black),
     headline6: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    subtitle1: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    subtitle2: TextStyle(color: kTeal),
+    subtitle2: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     bodyText1: TextStyle(color: Colors.white),
     bodyText2: TextStyle(color: Colors.black),
+    caption: TextStyle(color: kTeal),
   )),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

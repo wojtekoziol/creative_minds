@@ -33,17 +33,17 @@ class CommentCard extends ConsumerWidget {
                     const SizedBox(width: Insets.s),
                     Text(
                       user?.name ?? 'user',
-                      style: theme.textTheme.subtitle1,
+                      style: theme.textTheme.subtitle2,
                     ),
                   ],
                 ),
                 error: (_, __) => Text(
                   "Could not get user's name",
-                  style: theme.textTheme.subtitle1,
+                  style: theme.textTheme.subtitle2,
                 ),
                 loading: () => Text(
                   'Loading...',
-                  style: theme.textTheme.subtitle1,
+                  style: theme.textTheme.subtitle2,
                 ),
               ),
           const SizedBox(height: Insets.l),

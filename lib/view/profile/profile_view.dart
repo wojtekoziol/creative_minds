@@ -46,14 +46,15 @@ class _YourProfileSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Your profile', style: textTheme.subtitle1),
+          Text('Your profile', style: textTheme.subtitle2),
           const SizedBox(height: Insets.s),
           ref.watch(currentUserStreamProvider).when(
                 data: (user) => Row(
@@ -100,7 +101,7 @@ class _PostsSection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Your posts', style: textTheme.subtitle1),
+          Text('Your posts', style: textTheme.subtitle2),
           const SizedBox(height: Insets.s),
           ref.watch(userPostsStreamProvider).when(
                 data: (posts) => Column(
