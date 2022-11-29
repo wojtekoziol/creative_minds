@@ -32,19 +32,15 @@ class ProfileView extends HookConsumerWidget {
     );
 
     useEffect(() {
-      final name = ref.read(currentUserStreamProvider).value?.name;
-      if (name == null) return;
-      nameController.text = name;
+      nameController
+        ..text = ref.read(currentUserStreamProvider).value?.name ?? ''
+        ..addListener(() {
+          nameController.text == ref.read(currentUserStreamProvider).value?.name
+              ? animController.reverse()
+              : animController.forward();
+        });
       return;
     }, []);
-
-    useEffect(() {
-      final name = ref.read(currentUserStreamProvider).value?.name;
-      nameController.text == name
-          ? animController.reverse()
-          : animController.forward();
-      return;
-    }, [nameController]);
 
     return Scaffold(
       body: Stack(

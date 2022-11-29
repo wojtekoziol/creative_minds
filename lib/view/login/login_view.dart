@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/insets.dart';
+import 'package:creative_minds/data/models/user.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
+import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/widgets/custom_snackbar.dart';
 import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -148,12 +150,20 @@ class _LoginButtons extends ConsumerWidget {
           onPressed: () async {
             if (!formKey.currentState!.validate()) return;
             try {
-              await ref
+              final credentials = await ref
                   .read(firebaseAuthProvider)
                   .createUserWithEmailAndPassword(
                     email: mailController.text,
                     password: passwordController.text,
                   );
+              if (credentials.user == null || credentials.user!.email == null) {
+                return;
+              }
+              final user = User(
+                id: credentials.user!.uid,
+                email: credentials.user!.email!,
+              );
+              await ref.read(firestoreRepoProvider).addUser(user);
               Navigator.of(context).pop();
             } on FirebaseException {
               ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar(
