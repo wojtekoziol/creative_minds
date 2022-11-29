@@ -1,16 +1,22 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creative_minds/config/constants.dart';
 import 'package:creative_minds/config/insets.dart';
+import 'package:creative_minds/data/providers/app_providers.dart';
 import 'package:creative_minds/data/providers/firebase_providers.dart';
 import 'package:creative_minds/data/providers/posts_providers.dart';
 import 'package:creative_minds/data/providers/user_providers.dart';
 import 'package:creative_minds/data/repositories/firestore_repo.dart';
 import 'package:creative_minds/view/login/login_view.dart';
 import 'package:creative_minds/view/widgets/custom_app_bar.dart';
+import 'package:creative_minds/view/widgets/custom_snackbar.dart';
 import 'package:creative_minds/view/widgets/custom_text_form_field.dart';
 import 'package:creative_minds/view/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileView extends HookConsumerWidget {
   const ProfileView({super.key});
@@ -30,17 +36,15 @@ class ProfileView extends HookConsumerWidget {
       if (name == null) return;
       nameController.text = name;
       return;
-    });
+    }, []);
 
     useEffect(() {
-      nameController.addListener(() {
-        final name = ref.read(currentUserStreamProvider).value?.name;
-        nameController.text == name
-            ? animController.reverse()
-            : animController.forward();
-      });
+      final name = ref.read(currentUserStreamProvider).value?.name;
+      nameController.text == name
+          ? animController.reverse()
+          : animController.forward();
       return;
-    }, []);
+    }, [nameController]);
 
     return Scaffold(
       body: Stack(
@@ -124,12 +128,49 @@ class _YourProfileSection extends ConsumerWidget {
           ref.watch(currentUserStreamProvider).when(
                 data: (user) => Row(
                   children: [
-                    CircleAvatar(
-                      radius: Insets.m,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: NetworkImage(
-                        user?.photoURL ?? kBlankProfilePictureURL,
-                      ),
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: Insets.m,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(
+                            user?.photoURL ?? kBlankProfilePictureURL,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            final picker = ref.read(imagePickerProvider);
+                            final file = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (file == null || user == null) return;
+                            try {
+                              final storage =
+                                  ref.read(firebaseStorageProvider(user.id));
+                              await storage.putFile(File(file.path));
+                              await ref
+                                  .read(firestoreRepoProvider)
+                                  .updateUser(user.copyWith(
+                                    photoURL: await storage.getDownloadURL(),
+                                  ));
+                            } on FirebaseException {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbar(
+                                  'An error ocurred. Try again later.',
+                                ),
+                              );
+                            }
+                          },
+                          child: const Opacity(
+                            opacity: 0.25,
+                            child: CircleAvatar(
+                              radius: Insets.m,
+                              backgroundColor: Colors.black,
+                              child: Icon(Icons.edit_outlined),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(width: Insets.s),
                     Expanded(
